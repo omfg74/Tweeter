@@ -12,6 +12,7 @@ public class Constats {
     public static final String ACCESS_URL = "http://api.twitter.com/oauth/access_token";
     public static final String AUTHORIZE_URL = "http://api.twitter.com/oauth/authorize";
 
-    final public static String	CALLBACK_SCHEME = "x-latify-oauth-twitter";
-    final public static String	CALLBACK_URL = CALLBACK_SCHEME + "://callback";
+    public static final String	OAUTH_CALLBACK_SCHEME	= "x-oauthflow-twitter";
+    public static final String	OAUTH_CALLBACK_HOST		= "callback";
+    public static final String	OAUTH_CALLBACK_URL		= OAUTH_CALLBACK_SCHEME + "://" + OAUTH_CALLBACK_HOST;
 }
