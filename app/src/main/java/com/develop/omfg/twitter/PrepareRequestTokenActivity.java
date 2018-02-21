@@ -21,7 +21,7 @@ import oauth.signpost.commonshttp.CommonsHttpOAuthProvider;
  * Created by omfg7 on 21.02.2018.
  */
 
-class PrepareRequestTokenActivity extends Activity{
+public class PrepareRequestTokenActivity extends Activity{
     final String TAG = getClass().getName();
 
     private OAuthConsumer consumer;
