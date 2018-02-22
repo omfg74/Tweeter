@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -72,10 +73,32 @@ public class PrepareRequestTokenActivity extends Activity{
             final String oauth_verifier  = uri.getQueryParameter(OAuth.OAUTH_VERIFIER);
             try{
                 provider.retrieveAccessToken(consumer,oauth_verifier);
-            }catch (Exception e){
+                final Editor edit = prefs.edit();
+                edit.putString(OAuth.OAUTH_TOKEN, consumer.getToken());
+                edit.putString(OAuth.OAUTH_TOKEN_SECRET,consumer.getTokenSecret());
+                edit.commit();
 
+                String token = prefs.getString(OAuth.OAUTH_TOKEN,"");
+                String secret = prefs.getString(OAuth.OAUTH_TOKEN_SECRET,"");
+
+                consumer.setTokenWithSecret(token,secret);
+                context.startActivity(new Intent(context,AndroidTwitterSample.class));
+
+                executeAfterAccessTokenRetrieval();
+
+                Log.i(TAG, "OAuth - Access Token Retrieved");
+            }catch (Exception e){
+                Log.e(TAG, "OAuth - Access Token Retrieval Error", e);
             }
             return null;
+        }
+        private void executeAfterAccessTokenRetrieval(){
+            String msg = getIntent().getExtras().getString("tweet_msg");
+            try{
+                TwitterUtils.sendTweet(prefs,msg);
+            }catch (Exception e){
+                Log.e(TAG, "OAuth - Error sending to Twitter", e);
+            }
         }
     }
 }
